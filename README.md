@@ -1,4 +1,4 @@
-# **DSA Full Notes in Java (With Diagrams + Code)**
+# **DSA Full Notes in Java **
 
 ---
 
@@ -402,19 +402,7 @@ class Trie{
 
 ---
 
-# ⭐ **Complete DSA Notes Finished!**
 
-Agar chaho, mai:
-
-### ✔ Iska **PDF version** bana du
-
-### ✔ Top 200 DSA Interview Questions + Answers add kar du
-
-### ✔ Topic-wise practice sheet create kar du
-
-Sonam, next kya add karna hai?
-
----
 
 # **Core DSA Theory + Code Explanation (Beginner Friendly)**
 
@@ -722,4 +710,3 @@ int fib(int n){
 
 ---
 
-# ✅ **Theory + Concepts + Code Explanation Added!**
