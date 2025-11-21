@@ -62,3 +62,6 @@ k → nums1 ke last empty position
 - Jo number bada ho → nums1[k] me daal do
 - Move pointers back
 - End me agar nums2 bacha ho → usko copy kar do
+
+# code
+
