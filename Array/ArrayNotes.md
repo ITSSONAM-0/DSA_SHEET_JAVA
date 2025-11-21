@@ -42,8 +42,8 @@ for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
 return arr;
 ```
 # Stepwise
-1.sc.nextInt() reads an integer n from user input — the array size.
-2.new int[n] allocates a contiguous block of memory for n integers; all initialized to 0.
+1. sc.nextInt() reads an integer n from user input — the array size.
+2. new int[n] allocates a contiguous block of memory for n integers; all initialized to 0.
 3.for (i=0; i<n; i++) loops n times to fill each index.
 4.arr[i] = sc.nextInt(); reads the next integer and stores it at position i.
 5.return arr; returns the filled array to caller.
