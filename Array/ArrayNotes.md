@@ -44,9 +44,9 @@ return arr;
 # Stepwise
 1. sc.nextInt() reads an integer n from user input — the array size.
 2. new int[n] allocates a contiguous block of memory for n integers; all initialized to 0.
-3.for (i=0; i<n; i++) loops n times to fill each index.
-4.arr[i] = sc.nextInt(); reads the next integer and stores it at position i.
-5.return arr; returns the filled array to caller.
+3. for (i=0; i<n; i++) loops n times to fill each index.
+4. arr[i] = sc.nextInt(); reads the next integer and stores it at position i.
+5. return arr; returns the filled array to caller.
 Why: separates input logic so other methods can call inputArray and get a filled array.
 
 # 📘 4. Array Output (Printing values)
@@ -56,9 +56,9 @@ for (int i = 0; i < arr.length; i++) {
 }
 ```
 # Stepwise
-1.arr.length gives number of elements.
-2.Loop through each index i, print arr[i] followed by a space — keeps elements on same line.
-3.After loop, println() moves cursor to next line.
+1. arr.length gives number of elements.
+2. Loop through each index i, print arr[i] followed by a space — keeps elements on same line.
+3. After loop, println() moves cursor to next line.
 
 Why: simple readable output of array values.
 
@@ -73,8 +73,8 @@ Code
 arr[index] = value;
 ```
 # Stepwise
-1.Use the bracket notation to access position index.
-2.Assign value to that place — this modifies the original array in memory.
+1. Use the bracket notation to access position index.
+2. Assign value to that place — this modifies the original array in memory.
 Important: No copy is made — arrays are reference types in Java. If index is out-of-bounds, Java throws ArrayIndexOutOfBoundsException.
 
 # 📘 6. Array as Function Argument
@@ -96,9 +96,9 @@ public static void main(String[] args) {
 if (arr.length > 0) arr[0] = 99;
 ```
 # Stepwise
-1.Check arr.length > 0 to avoid empty-array errors.
-2.Set first element arr[0] to 99.
-3.The calling function sees the updated array (because the function modified the same array object).
+1. Check arr.length > 0 to avoid empty-array errors.
+2. Set first element arr[0] to 99.
+3. The calling function sees the updated array (because the function modified the same array object).
 
 Why: demonstrates arrays are passed by reference (the reference is passed by value, but the underlying array can be changed).
 
@@ -124,10 +124,10 @@ for (int i = 0; i < arr.length; i++) {
 return -1;
 ```
 # Stepwise
-1.Start from index 0.
-2.For each i, compare arr[i] with key.
-3.If equal, return i immediately — first occurrence index.
-4.If loop finishes without finding key, return -1 to indicate not found.
+1. Start from index 0.
+2. For each i, compare arr[i] with key.
+3. If equal, return i immediately — first occurrence index.
+4. If loop finishes without finding key, return -1 to indicate not found.
 
 Complexity: O(n) time, O(1) space.
 
@@ -204,7 +204,7 @@ return -1;
 4. If arr[mid] == key → found, return mid.
 5. If key < arr[mid] → discard right half, end = mid - 1.
 6. Else start = mid + 1 → discard left half.
-7.If loop exits without finding key, return -1.
+7. If loop exits without finding key, return -1.
 
 Important: The array must be sorted before calling this.
 Complexity: O(log n).
@@ -245,7 +245,7 @@ while (l < r) {
  - Put right value in left spot.
  - Put tmp (old left) into right spot.
  - Move l one step right, r one step left.
-3.This swaps pairs until array reversed in-place.
+3. This swaps pairs until array reversed in-place.
 
 Complexity: O(n) time, O(1) extra space.
 
@@ -353,11 +353,11 @@ for (int v : arr) {
 return maxSum;
 ```
 # Stepwise
-1.current accumulates running sum of a candidate subarray.
-2.Add each element v to current.
+1. current accumulates running sum of a candidate subarray.
+2. Add each element v to current.
 3. If current exceeds maxSum, update maxSum.
-4.If current becomes negative, reset current to 0 (no point in carrying a negative prefix).
-5.At the end maxSum holds the maximum possible contiguous subarray sum.
+4. If current becomes negative, reset current to 0 (no point in carrying a negative prefix).
+5. At the end maxSum holds the maximum possible contiguous subarray sum.
 
 Edge cases: Works even if all numbers negative because maxSum starts at Integer.MIN_VALUE. If all negative, maxSum becomes the largest (least negative) element.
 
