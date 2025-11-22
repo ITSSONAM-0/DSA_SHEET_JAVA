@@ -604,6 +604,9 @@ public class DiamondPattern {
 
 ---
 
+# Common Interview Questions & Variations
+
+---
 # 1) Print pyramid without trailing spaces
 Goal: Print a centered pyramid but avoid any extra spaces at the end of each printed line.
 Idea / Logic
