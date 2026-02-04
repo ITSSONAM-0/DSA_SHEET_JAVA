@@ -71,13 +71,16 @@ slow: 1 → 2 → 3 → 4
 fast: 1 → 3 → 5 → 3
 ```
 # At one point:
+
 ```
 slow == fast
 ```
+
 ✅ Cycle detected
 
 # 📍 Example 2: Middle of Linked List
 List:
+
 ```
 1 → 2 → 3 → 4 → 5
 ```
@@ -125,6 +128,7 @@ class Solution {
         return false;
     }
 }
+```
 # 🧪 Dry Run (Simple)
 ```
 slow: 1 → 2 → 3 → 4
