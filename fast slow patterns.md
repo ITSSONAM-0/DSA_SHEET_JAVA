@@ -81,199 +81,32 @@ List:
 ```
 1 → 2 → 3 → 4 → 5
 ```
-# 
-You said:
-Uploaded image
-ChatGPT said:
-Sonam, ye Unix Path Simplification wala classic stack problem hai (LeetCode 71 type).
-Main concept → steps → Java code → dry run sab clear kar deta hoon 👍
 
-🔍 Problem ka simple matlab
-Tumhe ek absolute Unix path diya hai, jaise:
 
-"/a/./b/../../c/"
-Tumhe isko simplify karke valid path banana hai.
 
-🧠 Rules yaad rakhne ke liye
-"." → current directory → ignore
 
-".." → ek folder peeche → last directory hatao
 
-"//" → single slash maana jayega
-
-Final path:
-
-/ se start hoga
-
-beech me sirf single /
-
-end me / nahi hoga (except root /)
-
-💡 Best Approach: Stack
-Reason:
-
-Folder aaya → push
-
-".." aaya → pop
-
-"." ya empty → ignore
-
-✅ Steps (important for interview)
-String ko / se split karo
-
-Ek stack lo
-
-Har part ke liye:
-
-"" or "." → skip
-
-".." → stack empty nahi hai to pop
-
-warna → push
-
-Stack se answer banao
-
-🧑‍💻 Java Code (Clean & Interview-ready)
-import java.util.*;
-
-public class Solution {
-    public String simplifyPath(String path) {
-        Stack<String> stack = new Stack<>();
-        
-        // split by /
-        String[] parts = path.split("/");
-        
-        for (String part : parts) {
-            if (part.equals("") || part.equals(".")) {
-                // ignore
-                continue;
-            } 
-            else if (part.equals("..")) {
-                if (!stack.isEmpty()) {
-                    stack.pop();
-                }
-            } 
-            else {
-                stack.push(part);
-            }
-        }
-        
-        // build result
-        StringBuilder result = new StringBuilder();
-        for (String dir : stack) {
-            result.append("/").append(dir);
-        }
-        
-        return result.length() == 0 ? "/" : result.toString();
-    }
-}
-🧪 Dry Run
-Input:
-
-"/a/./b/../../c/"
-Split:
-
-["", "a", ".", "b", "..", "..", "c", ""]
-Stack operations:
-
-a → [a]
-. → ignore
-b → [a, b]
-.. → pop → [a]
-.. → pop → []
-c → [c]
-Output:
-
-"/c"
-⏱ Time & Space Complexity
-Time: O(n)
-
-Space: O(n)
-
-🎯 Interview Tip
-Agar interviewer bole:
-
-bina stack ke karo
-
-To bolna:
-👉 Deque / ArrayList bhi use ho sakta hai, concept same rahega.
-
-Agar chaaho:
-
-❓ Tricky test cases
-
-🔁 Deque version
-
-✍️ Commented code for assignment
-
-🧠 Why not recursion?
-
-Bas bolo 😄
-
-You said:
-1. Fast and Slow Pointer isko accha sa smjhao easy and good explain
-ChatGPT said:
-Bilkul Sonam 😊
-Fast & Slow Pointer ko aaj itna easy bana dete hain ki dimaag me chipak jaye 🧠✨
-(No tension, bilkul beginner-friendly explain karungi)
-
-🚶‍♂️🚶‍♀️ Fast & Slow Pointer kya hota hai?
-Is technique me do pointers use hote hain:
-
-🐢 Slow pointer → 1 step aage
-
-🐇 Fast pointer → 2 steps aage
-
-Dono ek hi list / array / structure par chalte hain, bas speed alag hoti hai.
-
-🤔 Use kyun karte hain?
-Fast & Slow pointer mainly use hota hai:
-
-Linked List me cycle detect karne ke liye
-
-Middle element nikalne ke liye
-
-Happy Number jaisi problems
-
-Palindrome check (linked list)
-
-👉 Matlab jab tumhe comparison without extra space chahiye.
-
-🧠 Imagine karo (Real Life Example)
-Socho ek circular race track hai 🏃‍♂️🏃‍♀️
-
-Slow = cycle se walk kar raha
-
-Fast = cycle se run kar raha
-
-👉 Agar track circular hai, to fast banda slow ko pakka pakad lega
-👉 Agar circular nahi hai, fast track ke bahar nikal jayega (null)
-
-🔥 Yahi logic cycle detection ka base hai
-
-🔁 Example 1: Cycle Detection (Most Important)
+# 🔁 Example 1: Cycle Detection (Most Important)
 Linked List:
+```
 1 → 2 → 3 → 4 → 5
           ↑       ↓
           ← ← ← ←
-🧑‍💻 Logic:
-slow = head
-
-fast = head
+```
+# 🧑‍💻 Logic:
+- slow = head
+- fast = head
 
 Loop me:
-
-slow = slow.next
-
-fast = fast.next.next
+- slow = slow.next
+- fast = fast.next.next
 
 Agar:
+- slow == fast → cycle exists ✅
+- fast == null → no cycle ❌
 
-slow == fast → cycle exists ✅
-
-fast == null → no cycle ❌
-
-Java Code
+# Java Code
+```
 class Solution {
     public boolean hasCycle(ListNode head) {
         if (head == null) return false;
@@ -292,7 +125,7 @@ class Solution {
         return false;
     }
 }
-🧪 Dry Run (Simple)
+# 🧪 Dry Run (Simple)
 ```
 slow: 1 → 2 → 3 → 4
 fast: 1 → 3 → 5 → 3
