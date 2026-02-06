@@ -151,3 +151,219 @@ for (int right = 0; right < s.length(); right++) {
  - continuous
 
 🔥 Turant socho → Sliding Window
+
+
+****
+**🔹 STEP 1: Question ko classify karo**
+Sabse pehle ye decide karo:
+**❓ Window size diya hai?**
+- YES → Fixed Size Sliding Window
+- NO / condition based → Variable Size Sliding Window
+
+Tumhare list ke saare questions = Fixed Size Sliding Window 👍
+****
+**🔹 STEP 2: Window size k identify karo**
+Question me dhyaan se padho:
+- size k
+- window of length k
+- subarray of size k
+- substring of length k
+
+👉 Ye hi tumhari window hogi
+****
+**🔹 STEP 3: First window ka kaam karo**
+- pehle k elements / characters process karo
+- sum / frequency / count banao
+****
+**🔹 STEP 4: Window slide karo**
+- Har step pe
+- right side add
+- left side remove
+***8
+**🔹 STEP 5: Answer update karo
+**
+- max / min / count / list
+
+  ****
+  Ab isi framework se ek-ek question samajhte hain 👇
+
+
+
+  *****
+ # 1️⃣ Maximum Sum Subarray of Size K
+**🧩 Kya poochha?**
+- Subarray
+- Size = k
+- Maximum sum
+
+**✅ Pattern**
+
+✔ Fixed Size Sliding Window
+****
+
+**🔸 Steps**
+1. window size = k
+2. pehle k elements ka sum
+3. slide window
+4. left remove, right add
+5. max sum update
+
+# 🏆 FINAL MASTER RULE (Interview Gold ⭐)
+| Question Hint           | Pattern         |
+| ----------------------- | --------------- |
+| Subarray / Substring    | Sliding Window  |
+| Size k given            | Fixed Window    |
+| Frequency / Permutation | HashMap / Array |
+| Maximum in window       | Deque           |
+| Average                 | Convert to Sum  |
+
+
+# 1️⃣ Maximum Sum Subarray of Size K
+
+```java
+class Solution {
+    public int maxSumSubarray(int[] nums, int k) {
+        int windowSum = 0, maxSum = Integer.MIN_VALUE;
+
+        for (int i = 0; i < nums.length; i++) {
+            windowSum += nums[i];
+
+            if (i >= k - 1) {
+                maxSum = Math.max(maxSum, windowSum);
+                windowSum -= nums[i - (k - 1)];
+            }
+        }
+        return maxSum;
+    }
+}
+```
+# 2️⃣ Number of Subarrays Having Average ≥ Threshold
+
+```
+class Solution {
+    public int numOfSubarrays(int[] arr, int k, int threshold) {
+        int sum = 0, count = 0;
+        int target = k * threshold;
+
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+
+            if (i >= k - 1) {
+                if (sum >= target) count++;
+                sum -= arr[i - (k - 1)];
+            }
+        }
+        return count;
+    }
+}
+```
+# 3️⃣ Repeated DNA Sequences
+```
+import java.util.*;
+
+class Solution {
+    public List<String> findRepeatedDnaSequences(String s) {
+        Set<String> seen = new HashSet<>();
+        Set<String> result = new HashSet<>();
+
+        for (int i = 0; i <= s.length() - 10; i++) {
+            String sub = s.substring(i, i + 10);
+            if (!seen.add(sub)) {
+                result.add(sub);
+            }
+        }
+        return new ArrayList<>(result);
+    }
+}
+```
+# 4️⃣ Permutation in String
+```
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length()) return false;
+
+        int[] freq = new int[26];
+        for (char c : s1.toCharArray())
+            freq[c - 'a']++;
+
+        int left = 0, count = s1.length();
+
+        for (int right = 0; right < s2.length(); right++) {
+            if (freq[s2.charAt(right) - 'a']-- > 0)
+                count--;
+
+            if (count == 0) return true;
+
+            if (right - left + 1 == s1.length()) {
+                if (freq[s2.charAt(left) - 'a']++ >= 0)
+                    count++;
+                left++;
+            }
+        }
+        return false;
+    }
+}
+```
+# 5️⃣ Sliding Subarray Beauty
+```
+class Solution {
+    public int[] getSubarrayBeauty(int[] nums, int k, int x) {
+        int n = nums.length;
+        int[] result = new int[n - k + 1];
+        int[] freq = new int[101]; // -50 to 50 shift
+
+        int left = 0;
+        for (int right = 0; right < n; right++) {
+            freq[nums[right] + 50]++;
+
+            if (right - left + 1 == k) {
+                int cnt = 0;
+                for (int i = 0; i < 50; i++) { // only negatives
+                    cnt += freq[i];
+                    if (cnt >= x) {
+                        result[left] = i - 50;
+                        break;
+                    }
+                }
+                freq[nums[left] + 50]--;
+                left++;
+            }
+        }
+        return result;
+    }
+}
+```
+# 6️⃣ Sliding Window Maximum
+```java
+import java.util.*;
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n = nums.length;
+        int[] res = new int[n - k + 1];
+        Deque<Integer> dq = new ArrayDeque<>();
+
+        for (int i = 0; i < n; i++) {
+
+            // remove out of window
+            while (!dq.isEmpty() && dq.peekFirst() <= i - k)
+                dq.pollFirst();
+
+            // remove smaller elements
+            while (!dq.isEmpty() && nums[dq.peekLast()] < nums[i])
+                dq.pollLast();
+
+            dq.offerLast(i);
+
+            if (i >= k - 1)
+                res[i - k + 1] = nums[dq.peekFirst()];
+        }
+        return res;
+    }
+}
+```
+# 🧠 ONE LINE REVISION (Exam / Interview)
+- Sum / Avg / Count → normal sliding window
+- Permutation / Repeated → frequency + window
+- Maximum in window → Deque
+- Fixed size k → most easy sliding window
