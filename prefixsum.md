@@ -95,9 +95,9 @@ Socho tum pahadon ke beech khade ho:
 
 **🔹 Common Mistakes 🚫**
 
-❌ prefix[0] initialize bhoolna
-❌ suffix last index se start na karna
-❌ i-1 / i+1 boundary check miss karna
+- ❌ prefix[0] initialize bhoolna
+- ❌ suffix last index se start na karna
+- ❌ i-1 / i+1 boundary check miss karna
 
 # 🔹 Summary (Exam ke liye yaad rakhna 🧠)
 | Point     | Answer                       |
