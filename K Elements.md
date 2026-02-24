@@ -1,6 +1,6 @@
-**🔷 1️⃣ Top K Elements Pattern Kya Hai?
+# 🔷 1️⃣ Top K Elements Pattern Kya Hai?
 
-Jab question me bola jaye:**
+**Jab question me bola jaye:**
 
 - Top K largest elements
 - K smallest numbers
@@ -10,9 +10,9 @@ Jab question me bola jaye:**
 
 **👉 Tab 90% cases me Heap (Priority Queue) use hota hai.**
 
-**🔷 2️⃣ Ye Pattern Kyu Use Karte Hain?**
+# 🔷 2️⃣ Ye Pattern Kyu Use Karte Hain?
 
-Agar brute force kare:
+**Agar brute force kare:**
 - Array sort karo → O(N log N)
 - First K ya last K le lo
 
@@ -29,7 +29,7 @@ Time Complexity = O(N log K)
 👉 N log K << N log N
 Jab K << N ho to bahut fast 🚀
 
-**🔷 3️⃣ Kaise Decide Kare – Min Heap ya Max Heap?**
+# 🔷 3️⃣ Kaise Decide Kare – Min Heap ya Max Heap?
 | Situation    | Heap Type         |
 | ------------ | ----------------- |
 | K Largest    | Min Heap (size K) |
@@ -37,9 +37,9 @@ Jab K << N ho to bahut fast 🚀
 | Kth Largest  | Min Heap          |
 | Kth Smallest | Max Heap          |
 
-**🔷 4️⃣ Intuition – K Largest Example
+# 🔷 4️⃣ Intuition – K Largest Example
 
-Array:**
+**Array:**
 ```</>
 [3,2,1,5,6,4]
 K = 2
@@ -53,7 +53,7 @@ Goal → 2 largest numbers
    -  To heap me daalo aur smallest hata do
 
 **Heap size kabhi K se bada nahi hoga.**
-**🔷 5️⃣ Java Code – K Largest Elements**
+# 🔷 5️⃣ Java Code – K Largest Elements
 ```</>java
 import java.util.*;
 
@@ -74,7 +74,7 @@ public class Solution {
 ```
 **Time = O(N log K)**
 
-**🔷 6️⃣ Kaha Use Hota Hai?**
+# 🔷 6️⃣ Kaha Use Hota Hai?
 ✅ 1. Kth Largest Element
 
 ✅ 2. Top K Frequent Elements
@@ -100,20 +100,20 @@ Agar question me ye words dikhe:
 
 **➡ Immediately socho: Heap Pattern**
 
-**🔷 8️⃣ Brute Force vs Optimized**
+# 🔷 8️⃣ Brute Force vs Optimized
 | Approach    | Time         |
 | ----------- | ------------ |
 | Sort        | O(N log N)   |
 | Heap        | O(N log K)   |
 | QuickSelect | O(N) average |
 
-**🔷 9️⃣ Heap vs QuickSelect**
+# 🔷 9️⃣ Heap vs QuickSelect
 | Method      | Kab Use Kare                      |
 | ----------- | --------------------------------- |
 | Heap        | Streaming data / frequent updates |
 | QuickSelect | Single Kth element                |
 
-**🔷 🔥 Interview Level Trap**
+# 🔷 🔥 Interview Level Trap
 
 Interviewer puch sakta hai:
 
@@ -140,7 +140,7 @@ Agar question me ye keywords aaye:
 **👉 Turant dimaag me aaye: Heap Pattern**
 
 
-**🔷 Example 1: Kth Largest Element
+# **🔷 Example 1: Kth Largest Element
 Question:**
 Array diya hai. Kth largest element find karo.
 
