@@ -438,5 +438,364 @@ Remember this formula:
 BFS = Queue + Visited + Neighbors
 ```
 
+# 1️⃣ Rotting Oranges
+**Problem Idea**
 
+**Grid me**
+```
+0 = empty
+1 = fresh orange
+2 = rotten orange
+```
+**Rule:**
+```
+1 minute me rotten orange
+adjacent fresh orange ko rotten bana deta hai
+```
+**Intuition**
 
+- Ye infection spread jaisa hai.
+- Isliye:
+ ```
+All rotten oranges → queue me daalo
+```
+**Fir BFS se infection spread.**
+**Steps**
+- 1️⃣ Saare rotten oranges queue me daalo
+- 2️⃣ BFS chalao
+- 3️⃣ Har level = 1 minute
+
+Java code 
+```java
+class Solution {
+    public int orangesRotting(int[][] grid) {
+
+        Queue<int[]> q = new LinkedList<>();
+        int fresh = 0;
+
+        int m = grid.length;
+        int n = grid[0].length;
+
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+
+                if(grid[i][j] == 2)
+                    q.add(new int[]{i,j});
+
+                if(grid[i][j] == 1)
+                    fresh++;
+            }
+        }
+
+        int[][] dir = {{1,0},{-1,0},{0,1},{0,-1}};
+        int time = 0;
+
+        while(!q.isEmpty() && fresh>0){
+
+            int size = q.size();
+            time++;
+
+            for(int i=0;i<size;i++){
+
+                int[] cell = q.poll();
+
+                for(int[] d : dir){
+
+                    int r = cell[0]+d[0];
+                    int c = cell[1]+d[1];
+
+                    if(r>=0 && c>=0 && r<m && c<n && grid[r][c]==1){
+
+                        grid[r][c] = 2;
+                        fresh--;
+                        q.add(new int[]{r,c});
+
+                    }
+                }
+            }
+        }
+
+        return fresh==0 ? time : -1;
+    }
+}
+```
+ # 2️⃣ Number of Islands
+**Problem**
+```
+1 = land
+0 = water
+```
+Find kitne islands hain.
+
+**Intuition**
+
+Har island connected component hai.
+```
+Jab bhi new land mile
+→ BFS chalao
+→ poora island mark karo
+```
+java code 
+```java
+class Solution {
+    public int numIslands(char[][] grid) {
+
+        int m = grid.length;
+        int n = grid[0].length;
+        int islands = 0;
+
+        int[][] dir = {{1,0},{-1,0},{0,1},{0,-1}};
+
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+
+                if(grid[i][j]=='1'){
+
+                    islands++;
+
+                    Queue<int[]> q = new LinkedList<>();
+                    q.add(new int[]{i,j});
+                    grid[i][j]='0';
+
+                    while(!q.isEmpty()){
+
+                        int[] cell = q.poll();
+
+                        for(int[] d:dir){
+
+                            int r = cell[0]+d[0];
+                            int c = cell[1]+d[1];
+
+                            if(r>=0 && c>=0 && r<m && c<n && grid[r][c]=='1'){
+
+                                grid[r][c]='0';
+                                q.add(new int[]{r,c});
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return islands;
+    }
+}
+```
+# 3️⃣ Flood Fill
+**Problem**
+- Image me ek pixel diya hota hai.
+- Us color ke connected pixels ko new color se fill karna hai.
+
+**Example:**
+```
+1 1 1
+1 1 0
+1 0 1
+```
+**Start = (1,1)**
+**
+Intuition
+**
+```
+Start pixel
+↓
+same color neighbors
+↓
+BFS spread
+```
+**Java Code**
+```java
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+
+        int original = image[sr][sc];
+
+        if(original == color) return image;
+
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{sr,sc});
+
+        int[][] dir = {{1,0},{-1,0},{0,1},{0,-1}};
+
+        while(!q.isEmpty()){
+
+            int[] cell = q.poll();
+            int r = cell[0];
+            int c = cell[1];
+
+            image[r][c] = color;
+
+            for(int[] d : dir){
+
+                int nr = r + d[0];
+                int nc = c + d[1];
+
+                if(nr>=0 && nc>=0 && nr<image.length && nc<image[0].length
+                        && image[nr][nc] == original){
+
+                    q.add(new int[]{nr,nc});
+                }
+            }
+        }
+
+        return image;
+    }
+}
+```
+
+# 4️⃣ 01 Matrix
+
+**Problem**
+```
+0 0 0
+0 1 0
+1 1 1
+```
+Har 1 ka nearest 0 distance find karo.
+
+**Intuition**
+
+Instead of:
+```
+1 → nearest 0
+```
+**Use:**
+```
+All 0 → BFS spread
+```
+This is Multi Source BFS.
+
+**Java Code**
+```java
+class Solution {
+    public int[][] updateMatrix(int[][] mat) {
+
+        int m = mat.length;
+        int n = mat[0].length;
+
+        Queue<int[]> q = new LinkedList<>();
+        int[][] dist = new int[m][n];
+
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+
+                if(mat[i][j]==0)
+                    q.add(new int[]{i,j});
+                else
+                    dist[i][j] = -1;
+            }
+        }
+
+        int[][] dir = {{1,0},{-1,0},{0,1},{0,-1}};
+
+        while(!q.isEmpty()){
+
+            int[] cell = q.poll();
+
+            for(int[] d:dir){
+
+                int r = cell[0]+d[0];
+                int c = cell[1]+d[1];
+
+                if(r>=0 && c>=0 && r<m && c<n && dist[r][c]==-1){
+
+                    dist[r][c] = dist[cell[0]][cell[1]] + 1;
+                    q.add(new int[]{r,c});
+
+                }
+            }
+        }
+
+        return dist;
+    }
+}
+```
+# 5️⃣ Word Ladder (Classic BFS)
+**Problem**
+```
+beginWord = "hit"
+endWord = "cog"
+
+wordList = [hot,dot,dog,lot,log,cog]
+```
+**Transformation:**
+```
+hit
+↓
+hot
+↓
+dot
+↓
+dog
+↓
+cog
+```
+Find minimum transformations.
+
+**Intuition**
+
+Har step me 1 character change.
+
+**Graph ban jata hai.**
+```
+hit → hot
+hot → dot
+dot → dog
+```
+**Shortest path = BFS.**
+java code**
+**
+```java
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+
+        Set<String> set = new HashSet<>(wordList);
+        Queue<String> q = new LinkedList<>();
+
+        q.add(beginWord);
+
+        int level = 1;
+
+        while(!q.isEmpty()){
+
+            int size = q.size();
+
+            for(int i=0;i<size;i++){
+
+                String word = q.poll();
+
+                if(word.equals(endWord))
+                    return level;
+
+                char[] arr = word.toCharArray();
+
+                for(int j=0;j<arr.length;j++){
+
+                    char original = arr[j];
+
+                    for(char c='a';c<='z';c++){
+
+                        arr[j] = c;
+
+                        String newWord = new String(arr);
+
+                        if(set.contains(newWord)){
+
+                            q.add(newWord);
+                            set.remove(newWord);
+
+                        }
+                    }
+
+                    arr[j] = original;
+                }
+            }
+
+            level++;
+        }
+
+        return 0;
+    }
+}
+```
