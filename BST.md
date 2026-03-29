@@ -26,14 +26,21 @@
 
 ### **Validate BST:**
 
-```cpp
-bool isValidBST(Node* root, long minVal = LLONG_MIN, long maxVal = LLONG_MAX) {
-    if (root == nullptr) return true;
+```java
+class Solution {
     
-    if (root->data <= minVal || root->data >= maxVal) return false;
+    public boolean isValidBST(Node root) {
+        return validate(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
     
-    return isValidBST(root->left, minVal, root->data) &&
-           isValidBST(root->right, root->data, maxVal);
+    private boolean validate(Node root, long minVal, long maxVal) {
+        if (root == null) return true;
+        
+        if (root.data <= minVal || root.data >= maxVal) return false;
+        
+        return validate(root.left, minVal, root.data) &&
+               validate(root.right, root.data, maxVal);
+    }
 }
 ```
 
@@ -78,47 +85,55 @@ Result: Valid BST ✓
 
 ### **Recursive Code:**
 
-```cpp
-Node* insert(Node* root, int value) {
-    if (root == nullptr) {
-        return new Node(value);
-    }
+```java
+class Solution {
     
-    if (value < root->data) {
-        root->left = insert(root->left, value);
-    } else if (value > root->data) {
-        root->right = insert(root->right, value);
+    public Node insert(Node root, int value) {
+        if (root == null) {
+            return new Node(value);
+        }
+        
+        if (value < root.data) {
+            root.left = insert(root.left, value);
+        } else if (value > root.data) {
+            root.right = insert(root.right, value);
+        }
+        // agar value == root.data → ignore (duplicate handle nahi kiya)
+        
+        return root;
     }
-    // If value == root->data, ignore (or handle duplicates)
-    
-    return root;
 }
 ```
 
 ### **Iterative Code:**
 
-```cpp
-void insertIterative(Node*& root, int value) {
-    if (root == nullptr) {
-        root = new Node(value);
-        return;
-    }
+```java
+class Solution {
     
-    Node* curr = root;
-    while (true) {
-        if (value < curr->data) {
-            if (curr->left == nullptr) {
-                curr->left = new Node(value);
-                return;
-            }
-            curr = curr->left;
-        } else {
-            if (curr->right == nullptr) {
-                curr->right = new Node(value);
-                return;
-            }
-            curr = curr->right;
+    public Node insertIterative(Node root, int value) {
+        if (root == null) {
+            return new Node(value);
         }
+        
+        Node curr = root;
+        
+        while (true) {
+            if (value < curr.data) {
+                if (curr.left == null) {
+                    curr.left = new Node(value);
+                    break;
+                }
+                curr = curr.left;
+            } else {
+                if (curr.right == null) {
+                    curr.right = new Node(value);
+                    break;
+                }
+                curr = curr.right;
+            }
+        }
+        
+        return root;
     }
 }
 ```
@@ -157,30 +172,41 @@ Result:
 
 ### **Code:**
 
-```cpp
-Node* search(Node* root, int value) {
-    if (root == nullptr) return nullptr;
+```java
+class Solution {
     
-    if (value == root->data) return root;
-    
-    if (value < root->data) {
-        return search(root->left, value);
-    } else {
-        return search(root->right, value);
+    public Node search(Node root, int value) {
+        if (root == null) return null;
+        
+        if (value == root.data) return root;
+        
+        if (value < root.data) {
+            return search(root.left, value);
+        } else {
+            return search(root.right, value);
+        }
     }
 }
 ```
 
 ### **Iterative Code:**
 
-```cpp
-Node* searchIterative(Node* root, int value) {
-    while (root != nullptr) {
-        if (value == root->data) return root;
-        if (value < root->data) root = root->left;
-        else root = root->right;
+```java
+class Solution {
+    
+    public Node searchIterative(Node root, int value) {
+        while (root != null) {
+            if (value == root.data) return root;
+            
+            if (value < root.data) {
+                root = root.left;
+            } else {
+                root = root.right;
+            }
+        }
+        
+        return null;
     }
-    return nullptr;
 }
 ```
 
@@ -213,47 +239,44 @@ or Inorder Predecessor (largest in left subtree)
 
 ### **Code:**
 
-```cpp
-Node* deleteNode(Node* root, int value) {
-    if (root == nullptr) return nullptr;
+```java
+class Solution {
     
-    if (value < root->data) {
-        root->left = deleteNode(root->left, value);
-    } else if (value > root->data) {
-        root->right = deleteNode(root->right, value);
-    } else {
-        // Node found
+    public Node deleteNode(Node root, int value) {
+        if (root == null) return null;
         
-        // Case 1: No children (Leaf)
-        if (root->left == nullptr && root->right == nullptr) {
-            delete root;
-            return nullptr;
+        if (value < root.data) {
+            root.left = deleteNode(root.left, value);
+        } else if (value > root.data) {
+            root.right = deleteNode(root.right, value);
+        } else {
+            // Node mil gaya
+            
+            // Case 1: Leaf node
+            if (root.left == null && root.right == null) {
+                return null;
+            }
+            
+            // Case 2: One child
+            if (root.left == null) {
+                return root.right;
+            }
+            if (root.right == null) {
+                return root.left;
+            }
+            
+            // Case 3: Two children
+            Node successor = root.right;
+            while (successor.left != null) {
+                successor = successor.left;
+            }
+            
+            root.data = successor.data;
+            root.right = deleteNode(root.right, successor.data);
         }
         
-        // Case 2: One child
-        if (root->left == nullptr) {
-            Node* temp = root->right;
-            delete root;
-            return temp;
-        }
-        if (root->right == nullptr) {
-            Node* temp = root->left;
-            delete root;
-            return temp;
-        }
-        
-        // Case 3: Two children
-        // Find inorder successor (smallest in right subtree)
-        Node* successor = root->right;
-        while (successor->left != nullptr) {
-            successor = successor->left;
-        }
-        
-        root->data = successor->data;
-        root->right = deleteNode(root->right, successor->data);
+        return root;
     }
-    
-    return root;
 }
 ```
 
@@ -320,27 +343,30 @@ Inorder traversal of BST gives sorted array!
 
 ### **Code:**
 
-```cpp
-int kthSmallest(Node* root, int k) {
+```java
+class Solution {
+    
     int count = 0;
     int result = -1;
     
-    function<void(Node*)> inorder = [&](Node* node) {
-        if (node == nullptr || count >= k) return;
+    public int kthSmallest(Node root, int k) {
+        inorder(root, k);
+        return result;
+    }
+    
+    private void inorder(Node node, int k) {
+        if (node == null || count >= k) return;
         
-        inorder(node->left);
+        inorder(node.left, k);
         
         count++;
         if (count == k) {
-            result = node->data;
+            result = node.data;
             return;
         }
         
-        inorder(node->right);
-    };
-    
-    inorder(root);
-    return result;
+        inorder(node.right, k);
+    }
 }
 ```
 
@@ -374,27 +400,30 @@ Reverse inorder (Right → Root → Left)
 
 ### **Code:**
 
-```cpp
-int kthLargest(Node* root, int k) {
+```java
+class Solution {
+    
     int count = 0;
     int result = -1;
     
-    function<void(Node*)> reverseInorder = [&](Node* node) {
-        if (node == nullptr || count >= k) return;
+    public int kthLargest(Node root, int k) {
+        reverseInorder(root, k);
+        return result;
+    }
+    
+    private void reverseInorder(Node node, int k) {
+        if (node == null || count >= k) return;
         
-        reverseInorder(node->right);
+        reverseInorder(node.right, k);
         
         count++;
         if (count == k) {
-            result = node->data;
+            result = node.data;
             return;
         }
         
-        reverseInorder(node->left);
-    };
-    
-    reverseInorder(root);
-    return result;
+        reverseInorder(node.left, k);
+    }
 }
 ```
 
@@ -411,43 +440,49 @@ int kthLargest(Node* root, int k) {
 
 ### **Code - Floor:**
 
-```cpp
-int floor(Node* root, int x) {
-    int result = -1;
+```java
+class Solution {
     
-    while (root != nullptr) {
-        if (root->data == x) return root->data;
+    public int floor(Node root, int x) {
+        int result = -1;
         
-        if (root->data < x) {
-            result = root->data;  // This could be answer
-            root = root->right;
-        } else {
-            root = root->left;
+        while (root != null) {
+            if (root.data == x) return root.data;
+            
+            if (root.data < x) {
+                result = root.data; // candidate answer
+                root = root.right;
+            } else {
+                root = root.left;
+            }
         }
+        
+        return result;
     }
-    
-    return result;
 }
 ```
 
 ### **Code - Ceiling:**
 
-```cpp
-int ceiling(Node* root, int x) {
-    int result = -1;
+```java
+class Solution {
     
-    while (root != nullptr) {
-        if (root->data == x) return root->data;
+    public int ceiling(Node root, int x) {
+        int result = -1;
         
-        if (root->data > x) {
-            result = root->data;  // This could be answer
-            root = root->left;
-        } else {
-            root = root->right;
+        while (root != null) {
+            if (root.data == x) return root.data;
+            
+            if (root.data > x) {
+                result = root.data; // candidate answer
+                root = root.left;
+            } else {
+                root = root.right;
+            }
         }
+        
+        return result;
     }
-    
-    return result;
 }
 ```
 
@@ -482,20 +517,23 @@ Answer: 7 ✓
 
 ### **Code - Successor:**
 
-```cpp
-Node* findSuccessor(Node* root, int value) {
-    Node* succ = nullptr;
+```java
+class Solution {
     
-    while (root != nullptr) {
-        if (value < root->data) {
-            succ = root;  // This could be successor
-            root = root->left;
-        } else {
-            root = root->right;
+    public Node findSuccessor(Node root, int value) {
+        Node succ = null;
+        
+        while (root != null) {
+            if (value < root.data) {
+                succ = root; // candidate successor
+                root = root.left;
+            } else {
+                root = root.right;
+            }
         }
+        
+        return succ;
     }
-    
-    return succ;
 }
 ```
 
@@ -503,20 +541,23 @@ Node* findSuccessor(Node* root, int value) {
 
 ### **Code - Predecessor:**
 
-```cpp
-Node* findPredecessor(Node* root, int value) {
-    Node* pred = nullptr;
+```java
+class Solution {
     
-    while (root != nullptr) {
-        if (value > root->data) {
-            pred = root;  // This could be predecessor
-            root = root->right;
-        } else {
-            root = root->left;
+    public Node findPredecessor(Node root, int value) {
+        Node pred = null;
+        
+        while (root != null) {
+            if (value > root.data) {
+                pred = root; // candidate predecessor
+                root = root.right;
+            } else {
+                root = root.left;
+            }
         }
+        
+        return pred;
     }
-    
-    return pred;
 }
 ```
 
@@ -532,22 +573,25 @@ Can use BST property for O(h) instead of O(n)!
 
 ### **Code:**
 
-```cpp
-Node* lcaBST(Node* root, int n1, int n2) {
-    if (root == nullptr) return nullptr;
+```java
+class Solution {
     
-    // If both are smaller, go left
-    if (n1 < root->data && n2 < root->data) {
-        return lcaBST(root->left, n1, n2);
+    public Node lcaBST(Node root, int n1, int n2) {
+        if (root == null) return null;
+        
+        // dono left me
+        if (n1 < root.data && n2 < root.data) {
+            return lcaBST(root.left, n1, n2);
+        }
+        
+        // dono right me
+        if (n1 > root.data && n2 > root.data) {
+            return lcaBST(root.right, n1, n2);
+        }
+        
+        // split point → यही LCA
+        return root;
     }
-    
-    // If both are larger, go right
-    if (n1 > root->data && n2 > root->data) {
-        return lcaBST(root->right, n1, n2);
-    }
-    
-    // One on each side (or at root) → root is LCA
-    return root;
 }
 ```
 
@@ -575,29 +619,37 @@ Find LCA of 3 and 7:
 
 ### **Code:**
 
-```cpp
-void inorder(Node* root, Node*& head, Node*& tail) {
-    if (root == nullptr) return;
+```java
+class Solution {
     
-    inorder(root->left, head, tail);
-    
-    if (head == nullptr) {
-        head = tail = root;
-    } else {
-        tail->right = root;
-        root->left = tail;
-        tail = root;
+    static class Pair {
+        Node head;
+        Node tail;
     }
     
-    inorder(root->right, head, tail);
-}
-
-Node* bstToDLL(Node* root) {
-    Node* head = nullptr, *tail = nullptr;
-    inorder(root, head, tail);
+    public Node bstToDLL(Node root) {
+        Pair p = new Pair();
+        inorder(root, p);
+        
+        if (p.tail != null) p.tail.right = null; // break circular (optional)
+        return p.head;
+    }
     
-    if (tail) tail->right = nullptr;  // Break circular
-    return head;
+    private void inorder(Node root, Pair p) {
+        if (root == null) return;
+        
+        inorder(root.left, p);
+        
+        if (p.head == null) {
+            p.head = p.tail = root;
+        } else {
+            p.tail.right = root;
+            root.left = p.tail;
+            p.tail = root;
+        }
+        
+        inorder(root.right, p);
+    }
 }
 ```
 
