@@ -135,7 +135,7 @@ Explanation: 5! = 5 * 4 * 3 * 2 * 1 = 120
 
 ---
 
-### **📝 Complete C++ Code:**
+### **📝 Complete java Code:**
 
 ```java
 public class Main {
